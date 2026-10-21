@@ -13,10 +13,13 @@ jobs:
         with:
           distribution: temurin
           java-version: 8
-      - uses: android-actions/setup-android@v3
       - uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: 4.4
+      - name: Accept licenses
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+        env:
+          SKIP_JDK_VERSION_CHECK: "1"
       - run: gradle assembleDebug
       - uses: actions/upload-artifact@v4
         with:
